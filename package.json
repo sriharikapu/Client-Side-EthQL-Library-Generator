@@ -1,0 +1,7 @@
+{
+  "name": "ethdenver-cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ryanchristo/ethdenver-cli",
+  "license": "MIT"
+}
