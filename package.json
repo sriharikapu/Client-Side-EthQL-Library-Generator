@@ -3,5 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/ryanchristo/ethdenver-cli",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "node cli/index",
+    "client:start": "cd client && yarn start",
+    "client:build": "cd client && yarn build",
+    "client:test": "cd client && yarn test"
+  },
+  "devDependencies": {
+    "chalk": "^2.4.2"
+  },
+  "dependencies": {
+    "ganache-cli": "^6.3.0"
+  }
 }
