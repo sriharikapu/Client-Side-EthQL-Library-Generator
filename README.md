@@ -22,6 +22,12 @@ truffle compile
 truffle migrate
 ```
 
+### Start EthQL:
+
+```
+yarn ethql:start
+```
+
 ### Build Library
 
 ```
@@ -31,5 +37,5 @@ yarn build
 ### Start Client
 
 ```
-client:start
+yarn client:start
 ```

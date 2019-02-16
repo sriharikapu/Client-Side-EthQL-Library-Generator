@@ -5,7 +5,9 @@
   "repository": "https://github.com/ryanchristo/ethdenver-cli",
   "license": "MIT",
   "scripts": {
+    "postinstall": "sh scripts/postinstall.sh",
     "build": "node cli/index",
+    "ethql:start": "cd lib/ethql && yarn dev",
     "client:start": "cd client && yarn start",
     "client:build": "cd client && yarn build",
     "client:test": "cd client && yarn test"
