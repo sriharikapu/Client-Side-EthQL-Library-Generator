@@ -34,6 +34,12 @@ yarn ethql:start
 yarn build
 ```
 
+If the directories are not empty, run the following command first:
+
+```
+yarn clean
+```
+
 ### Start Client
 
 ```
