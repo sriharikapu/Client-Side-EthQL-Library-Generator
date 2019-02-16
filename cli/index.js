@@ -1,25 +1,32 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk');
-const fs = require('fs-extra');
 const path = require('path');
 
-const SimpleStorage = require('../contracts/build/SimpleStorage.json');
+const fs = require('./helpers/fs-extended');
 
 // Set paths
 const buildPath = 'cli/build';
+const contractsPath = 'contracts/build';
 const exportPath = 'client/src/lib';
 
 // Load contract data
-const loadContractData = () => {
+const loadContractData = async () => {
 
   console.log();
   console.log(`${chalk.cyan('Loading contract data...')}`);
   console.log();
 
-  console.log(`${SimpleStorage.contractName}`);
-  console.log();
-  console.log(`${JSON.stringify(SimpleStorage.abi)}`);
+  const data = await fs.readdirAsync(contractsPath)
+    .then(contracts => {
+      promises = [];
+      contracts.map(contract => {
+        promises.push(fs.readFileAsync(`${contractsPath}/${contract}`, 'utf-8'));
+      });
+      return Promise.all(promises);
+    });
+
+  console.log(`${data}`);
   console.log();
 
 }
@@ -91,6 +98,8 @@ export const testing = () => {
 }
 
 // Execute methods
-loadContractData();
-prepareLibrary();
-buildLibrary();
+(async () => {
+  await loadContractData();
+  prepareLibrary();
+  buildLibrary();
+})();
