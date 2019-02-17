@@ -15,7 +15,7 @@ function isEmptyHexString(hex: string) {
 }
 
 export const ADDRESS_TYPE: ParamType = {
-  name: 'address',
+  name: 'String',
   validate(value: *) {
     assert(
       isEmptyHexString(value) || isAddress(value),
@@ -80,7 +80,7 @@ export const INTEGER_TYPE: ParamType = {
 };
 
 export const BIG_INTEGER_TYPE: ParamType = {
-  name: 'bigInteger',
+  name: 'Int',
   validate(value: *) {
     assert(
       Number.isInteger(value) || BigNumber.isBN(value),
