@@ -1,4 +1,7 @@
 node_modules
 
 cli/build
+cli/dist
+cli/lib
+
 contracts/build

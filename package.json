@@ -1,23 +1,21 @@
 {
   "name": "ethdenver-cli",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/ryanchristo/ethdenver-cli",
+  "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "postinstall": "sh scripts/postinstall.sh",
-    "build": "node cli/index",
-    "clean": "rm -R cli/build client/src/lib",
-    "ethql:start": "cd lib/ethql && yarn dev",
+    "clean": "rm -rf cli/build client/src/lib",
+    "cli:build": "cd cli && yarn build",
+    "cli:start": "cd cli && yarn start",
     "client:start": "cd client && yarn start",
     "client:build": "cd client && yarn build",
-    "client:test": "cd client && yarn test"
+    "client:test": "cd client && yarn test",
+    "ethql:start": "cd lib/ethql && yarn dev"
   },
   "devDependencies": {
-    "chalk": "^2.4.2"
+    "ganache-cli": "^6.3.0"
   },
   "dependencies": {
-    "fs-extra": "^7.0.1",
-    "ganache-cli": "^6.3.0"
+    "babel-preset-flow": "^6.23.0"
   }
 }

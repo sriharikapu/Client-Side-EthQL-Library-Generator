@@ -1,0 +1,31 @@
+{
+  "name": "cli",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "yarn run build:dist && yarn run build:lib && yarn run build:flow",
+    "build:dist": "webpack",
+    "build:flow": "flow-copy-source src lib",
+    "build:lib": "babel src --out-dir lib",
+    "clean": "rm -rf build lib dist",
+    "start": "yarn clean && yarn build && node index"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "fs-extra": "^7.0.1",
+    "web3-utils": "^1.0.0-beta.46"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/plugin-proposal-class-properties": "^7.3.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
+    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-flow": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "flow-copy-source": "^2.0.3",
+    "webpack": "^4.29.4",
+    "webpack-cli": "^3.2.3"
+  }
+}

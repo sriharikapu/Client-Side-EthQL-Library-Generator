@@ -11,10 +11,14 @@ log() {
 log "Initializing ethql submodule..."
 git submodule update --init
 
-# Install ethql dependencies
-log "Installing ethql dependencies..."
-cd lib/ethql && yarn
+# Install cli dependencies
+log "Installing cli dependencies..."
+cd cli && yarn
 
 # Install client dependencies
 log "Installing client dependencies..."
-cd ../../client && yarn
+cd ../client && yarn
+
+# Install ethql dependencies
+log "Installing ethql dependencies..."
+cd ../lib/ethql && yarn
