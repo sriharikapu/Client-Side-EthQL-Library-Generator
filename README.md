@@ -20,16 +20,16 @@ yarn ganache-cli
 yarn contracts:deploy
 ```
 
-### Start EthQL:
-
-```
-yarn ethql:start
-```
-
 ### Build Library
 
 ```
 yarn cli:run
+```
+
+### Start EthQL:
+
+```
+yarn ethql:start
 ```
 
 ### Start Client
