@@ -5,10 +5,17 @@ const path = require('path');
 
 const { ABIParser } = require('./lib/index');
 const fs = require('./src/helpers/fs-extended');
+const createFromTemplate = require('./src/template')
 
+// TEMP Set paths manually
 const buildPath = '../cli/build';
 const contractsPath = '../contracts/build';
 const exportPath = '../client/src/lib';
+
+// Script state
+const state = {
+  parsedContractData: null,
+}
 
 // Load contract data
 const loadContractData = async () => {
@@ -17,6 +24,7 @@ const loadContractData = async () => {
   console.log(`${chalk.cyan('Loading contract data...')}`);
   console.log();
 
+  // Return an array of contract data objects read from each contract file
   const contracts = await fs.readdirAsync(contractsPath).then(filenames => {
     const promises = [];
     filenames.map(filename => {
@@ -31,16 +39,34 @@ const loadContractData = async () => {
     });
   });
 
+  // Create parser instance
   const parser = new ABIParser();
 
-  contracts.map(contract => {
+  // Create parsed contract data array
+  parsedContractDataArray = [];
 
-    const parsedContract = parser.constructor.parseABI(contract.abi);
+  // For each contract data item
+  contracts.map(contractData => {
 
-    console.log('Parsed Contract:', JSON.stringify(parsedContract));
+    // Parse contract data
+    const parsedContractData = parser.constructor.parseABI(contractData.abi);
+
+    // TEMP Log parsed contract data
+    console.log(contractData.contractName);
+    console.log();
+    console.log(JSON.stringify(parsedContractData));
     console.log();
 
+    // Push contract data to parsed contract data array
+    parsedContractDataArray.push({
+      name: contractData.contractName,
+      data: parsedContractData,
+    });
+
   });
+
+  // Return parsed contract data array
+  return parsedContractDataArray;
 
 }
 
@@ -93,17 +119,20 @@ const buildLibrary = () => {
   console.log(`${chalk.cyan('Building JavaScript library...')}`);
   console.log();
 
-  const exampleMethod = `// testing
+  // Create library using template
+  const library = createFromTemplate(parsedContractDataArray);
 
-export const testing = () => {
+  // TEMP Log libary
+  console.log(library);
+  console.log();
 
-  return 'testing';
+  // Create index file in build and append library
+  fs.appendFile(`${buildPath}/index.js`, library);
 
-};
-`;
+}
 
-  // Add library methods to build index
-  fs.appendFile(`${buildPath}/index.js`, exampleMethod);
+// Export JavaScript library
+const exportLibrary = () => {
 
   // Copy build directory to library directory
   fs.copy(buildPath, exportPath);
@@ -115,4 +144,5 @@ export const testing = () => {
   await loadContractData();
   prepareLibrary();
   buildLibrary();
+  exportLibrary();
 })();
