@@ -44,10 +44,12 @@ export const BLOCK_TEST = gql`
 export const CONTRACT_TEST = gql`
   {
     SimpleStorage {
-      get
+      get {
+        x
+      }
     }
-    Migrations {
-      last_completed_migration
+    block(number: 5000000) {
+      hash
     }
   }
 `;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 
 import getWeb3 from '../../utils/getWeb3';
-import { BLOCK_TEST } from '../../queries';
+import { CONTRACT_TEST } from '../../queries';
 import * as library from '../../lib/index';
 
 class Home extends Component {
@@ -50,7 +50,7 @@ class Home extends Component {
         <h1>Library Test</h1>
         <p>{this.state.testing}</p>
         <h1>GraphQL Test</h1>
-        <Query query={BLOCK_TEST}>
+        <Query query={CONTRACT_TEST}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error :(</p>;
