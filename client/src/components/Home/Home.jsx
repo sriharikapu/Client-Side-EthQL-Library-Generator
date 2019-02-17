@@ -3,7 +3,6 @@ import { Query } from 'react-apollo';
 
 import getWeb3 from '../../utils/getWeb3';
 import { CONTRACT_TEST } from '../../queries';
-import library from '../../lib/index';
 
 class Home extends Component {
 
@@ -23,7 +22,7 @@ class Home extends Component {
       const accounts = await web3.eth.getAccounts();
 
       // Set web3 and accounts to the state.
-      this.setState({ web3, accounts, library });
+      this.setState({ web3, accounts });
 
     } catch (error) {
 
@@ -43,9 +42,7 @@ class Home extends Component {
     }
     return (
       <div>
-        <h1>Library Test</h1>
-        {JSON.stringify(library)}
-        <h1>GraphQL Test</h1>
+        <h1>GraphQL Query Tests</h1>
         <Query query={CONTRACT_TEST}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;

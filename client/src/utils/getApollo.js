@@ -3,7 +3,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 
-import getEthpollo from '../ethpollo';
+import getEthpollo from '../lib';
 
 export default async () => {
   const ethpollo = await getEthpollo();
