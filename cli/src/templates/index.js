@@ -11,7 +11,7 @@ module.exports = (parsedContractDataArray) => {
 
   function printSubtreeMethod(method) {
     return `const data = abiCoder.encodeFunctionCall({
-            name: ${method[0]},
+            name: '${method[0]}',
             type: 'function',
             inputs: ${Object.entries(method[1].input)[0][1][0] ? `[
               name: '${Object.entries(method[1].input)[0][1][0].name}',
@@ -180,7 +180,7 @@ export default async () => {
               return `
         ['${parsedContractData.name}', '${constant[0]}'],
         subtree => {
-          ${printSubtreeMethod(constant)}${printSubtreeGeneral(parsedContractData.address || '0x0...')}
+          ${printSubtreeMethod(constant)}${printSubtreeGeneral(parsedContractData.address || '0x0000000000000000000000000000000000000000')}
         result => {
           return {
             data: {
@@ -200,7 +200,7 @@ export default async () => {
               return `
         ['${parsedContractData.name}', '${method[0]}'],
         subtree => {
-          ${printSubtreeMethod(method)}${printSubtreeGeneral(parsedContractData.address || '0x0...')}
+          ${printSubtreeMethod(method)}${printSubtreeGeneral(parsedContractData.address || '0x0000000000000000000000000000000000000000')}
         result => {
           return {
             data: {
@@ -211,12 +211,13 @@ export default async () => {
               }`},
             },
           };
-        },
-      }`}).join(',')
-      } else {
-        return '';
-      }
+        }`}).join(',')
+          } else {
+            return '';
+          }
       })},
+      ),
+      {
         transformRequest: request => {
           return request;
         },

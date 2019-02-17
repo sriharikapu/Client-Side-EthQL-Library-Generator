@@ -71,7 +71,7 @@ const loadContractData = async () => {
 }
 
 // Prepare JavaScript library
-const prepareLibrary = () => {
+const prepareLibrary = async () => {
 
   console.log(`${chalk.cyan('Preparing JavaScript library...')}`);
   console.log();
@@ -114,7 +114,7 @@ const prepareLibrary = () => {
 }
 
 // Build JavaScript library
-const buildLibrary = () => {
+const buildLibrary = async () => {
 
   console.log(`${chalk.cyan('Building JavaScript library...')}`);
   console.log();
@@ -126,13 +126,16 @@ const buildLibrary = () => {
   console.log(library);
   console.log();
 
+  const ReplaceQueryTransform = await fs.readFileAsync('src/templates/ReplaceQueryTransform.js', 'utf-8');
+
   // Create index file in build and append library
   fs.appendFile(`${buildPath}/index.js`, library);
+  fs.appendFile(`${buildPath}/ReplaceQueryTransform.js`, ReplaceQueryTransform);
 
 }
 
 // Export JavaScript library
-const exportLibrary = () => {
+const exportLibrary = async () => {
 
   // Copy build directory to library directory
   fs.copy(buildPath, exportPath);
@@ -142,7 +145,7 @@ const exportLibrary = () => {
 // Execute methods
 (async () => {
   await loadContractData();
-  prepareLibrary();
-  buildLibrary();
-  exportLibrary();
+  await prepareLibrary();
+  await buildLibrary();
+  await exportLibrary();
 })();
