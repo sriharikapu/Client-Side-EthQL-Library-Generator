@@ -4,11 +4,11 @@ const chalk = require('chalk');
 const path = require('path');
 
 const fs = require('./helpers/fs-extended');
+const { ABIParser } = require('./lib/index');
 
-// Set paths
-const buildPath = 'cli/build';
-const contractsPath = 'contracts/build';
-const exportPath = 'client/src/lib';
+const buildPath = '../cli/build';
+const contractsPath = '../contracts/build';
+const exportPath = '../client/src/lib';
 
 // Load contract data
 const loadContractData = async () => {
@@ -17,17 +17,30 @@ const loadContractData = async () => {
   console.log(`${chalk.cyan('Loading contract data...')}`);
   console.log();
 
-  const data = await fs.readdirAsync(contractsPath)
-    .then(contracts => {
-      promises = [];
-      contracts.map(contract => {
-        promises.push(fs.readFileAsync(`${contractsPath}/${contract}`, 'utf-8'));
-      });
-      return Promise.all(promises);
+  const contracts = await fs.readdirAsync(contractsPath).then(filenames => {
+    const promises = [];
+    filenames.map(filename => {
+      promises.push(fs.readFileAsync(`${contractsPath}/${filename}`, 'utf-8'));
     });
+    return Promise.all(promises).then(results => {
+      const contracts = [];
+      results.map(result => {
+        contracts.push(JSON.parse(result));
+      });
+      return contracts;
+    });
+  });
 
-  console.log(`${data}`);
-  console.log();
+  const parser = new ABIParser();
+
+  contracts.map(contract => {
+
+    const parsedContract = parser.constructor.parseABI(contract.abi);
+
+    console.log('Parsed Contract:', JSON.stringify(parsedContract));
+    console.log();
+
+  });
 
 }
 
