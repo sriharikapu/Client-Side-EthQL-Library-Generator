@@ -1,6 +1,10 @@
-# ethdenver-cli
+<div align="center">
+  <img src="/public/img/cover.jpeg" />
+</div>
 
-A command line interface to build JS libraries from contract data.
+# Client-Side EthQL Library Generator
+
+Buidl JavaScript libraries that interact with contracts via EthQL.
 
 ## Development
 
