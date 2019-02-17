@@ -44,7 +44,7 @@ class Home extends Component {
     return (
       <div>
         <h1>Library Test</h1>
-        {this.state.library}
+        {JSON.stringify(library)}
         <h1>GraphQL Test</h1>
         <Query query={CONTRACT_TEST}>
           {({ loading, error, data }) => {

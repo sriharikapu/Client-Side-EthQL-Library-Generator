@@ -109,13 +109,14 @@ const abiCoder = new AbiCoder();
 
 const contractSchema = makeExecutableSchema({
   typeDefs: \`${parsedContractDataArray.map(parsedContractData => {
-      return Object.entries(parsedContractData.data.constants).map(constant => {
-        return `
+    const constantsArray = Object.entries(parsedContractData.data.constants);
+    return `
     type ${parsedContractData.name}Query {
-      ${parsedContractData.name}_${constant[0]}
-    }
-    `
-      }).join('');
+      ${constantsArray.map(constant => {
+        return `${constant[0]}: ${parsedContractData.name}_${constant[0]}
+      `
+      }).join('')}
+    }`
     }).join('')}${parsedContractDataArray.map(parsedContractData => {
       const constantsArray = Object.entries(parsedContractData.data.constants);
       return constantsArray.map(constant => {
@@ -129,13 +130,13 @@ const contractSchema = makeExecutableSchema({
       }).join('');
     }).join('')}${parsedContractDataArray.map(parsedContractData => {
       const methodsArray = Object.entries(parsedContractData.data.methods);
-      return methodsArray.map(method => {
-        return `
-    type ${parsedContractData.name}Mutation {
-      ${Object.entries(method[1].input).toString().split('(')[0]}(${Object.entries(method[1].input)[0][1][0].name}: ${Object.entries(method[1].input)[0][1][0].type.name}): Boolean # should be receipt
-    }
-    `
-      }).join('');
+      return `
+      type ${parsedContractData.name}Mutation {
+        ${methodsArray.map(method => {
+          return `${Object.entries(method[1].input).toString().split('(')[0]}(${Object.entries(method[1].input)[0][1][0].name}: ${Object.entries(method[1].input)[0][1][0].type.name}): Boolean # should be receipt
+        `
+      }).join('')}
+    }`
     }).join('')}
     type Query {${parsedContractDataArray.map(parsedContractData => {
       return `
