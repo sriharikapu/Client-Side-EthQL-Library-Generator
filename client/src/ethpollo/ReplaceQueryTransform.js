@@ -6,12 +6,13 @@ export default class ReplaceQuery extends WrapQuery {
     const document = originalRequest.document;
     const fieldPath = [];
     const ourPath = JSON.stringify(this.path);
+    let ourNode;
     const newDocument = visit(document, {
       [Kind.FIELD]: {
         enter: (node) => {
           fieldPath.push(node.name.value);
           if (ourPath === JSON.stringify(fieldPath)) {
-            return this.wrapper(node.selectionSet);
+            ourNode = this.wrapper(node.selectionSet);
           }
         },
         leave: (node) => {
@@ -19,10 +20,14 @@ export default class ReplaceQuery extends WrapQuery {
         }
       }
     });
-    // TODO: build a document with SelectionSet containing both original and call
+    if (ourNode) newDocument.definitions[0].selectionSet.selections.push(ourNode);
     return {
       ...originalRequest,
       document: newDocument
     };
+  }
+
+  transformResult(originalResult) {
+    return originalResult.data[this.path[0]] !== undefined ? this.extractor(originalResult) : originalResult;
   }
 }

@@ -63,13 +63,13 @@ export default async () => {
         },
       },
       new ReplaceQuery(
-        ['SimpleStorage'],
-        (subtree) => {
-          const functionName = subtree.selections[0].name.value;
+        ['SimpleStorage', 'get'],
+        subtree => {
+          // TODO: get params from subtree
           const data = abiCoder.encodeFunctionCall({
-            name: functionName,
+            name: 'get',
             type: 'function',
-            inputs: [], // TODO: determine based on function name
+            inputs: [],
           }, []);
           return {
             kind: Kind.FIELD,
@@ -135,9 +135,14 @@ export default async () => {
           };
         },
         result => {
+          console.log('result', result);
           return {
-            get: {
-              x: 5,
+            data: {
+              SimpleStorage: {
+                get: {
+                  x: 5,
+                },
+              },
             },
           };
         },
