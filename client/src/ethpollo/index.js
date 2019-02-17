@@ -1,10 +1,20 @@
 import { SchemaLink } from 'apollo-link-schema';
 import { HttpLink } from 'apollo-link-http';
-import { FieldNode, visit, Kind, SelectionNode, SelectionSetNode } from 'graphql';
-import { makeExecutableSchema, addMockFunctionsToSchema, makeRemoteExecutableSchema, introspectSchema, transformSchema, WrapQuery, ExtractField, mergeSchemas } from 'graphql-tools';
+import { Kind } from 'graphql';
+import {
+  makeExecutableSchema,
+  makeRemoteExecutableSchema,
+  introspectSchema,
+  transformSchema,
+  mergeSchemas,
+} from 'graphql-tools';
+import { AbiCoder } from 'web3-eth-abi';
+
 import ReplaceQuery from './ReplaceQueryTransform';
 
 const link = new HttpLink({ uri: 'http://localhost:4000/graphql' });
+
+const abiCoder = new AbiCoder();
 
 const contractSchema = makeExecutableSchema({
   typeDefs: `
@@ -55,7 +65,12 @@ export default async () => {
       new ReplaceQuery(
         ['SimpleStorage'],
         (subtree) => {
-          console.log(subtree)
+          const functionName = subtree.selections[0].name.value;
+          const data = abiCoder.encodeFunctionCall({
+            name: functionName,
+            type: 'function',
+            inputs: [], // TODO: determine based on function name
+          }, []);
           return {
             kind: Kind.FIELD,
             name: {
@@ -70,18 +85,62 @@ export default async () => {
                   value: 'data',
                 },
                 value: {
-                  kind: Kind.STRING,
-                  value: 'TODO: actual data'
+                  kind: Kind.OBJECT,
+                  fields: [{
+                    kind: Kind.OBJECT_FIELD,
+                    name: {
+                      kind: Kind.NAME,
+                      value: 'from'
+                    },
+                    value: {
+                      kind: Kind.STRING,
+                      value: '0x0cb0079936dce60fcba8eff2c76f1ee64b303bad'
+                    }
+                  }, {
+                    kind: Kind.OBJECT_FIELD,
+                    name: {
+                      kind: Kind.NAME,
+                      value: 'to'
+                    },
+                    value: {
+                      kind: Kind.STRING,
+                      value: '0x0cb0079936dce60fcba8eff2c76f1ee64b303bad'
+                    }
+                  }, {
+                    kind: Kind.OBJECT_FIELD,
+                    name: {
+                      kind: Kind.NAME,
+                      value: 'data'
+                    },
+                    value: {
+                      kind: Kind.STRING,
+                      value: data
+                    }
+                  }],
                 },
-              }
+              },
             ],
+            selectionSet: {
+              kind: Kind.SELECTION_SET,
+              selections: [
+                {
+                  kind: Kind.FIELD,
+                  name: {
+                    kind: Kind.NAME,
+                    value: 'data',
+                  }
+                }
+              ]
+            }
           };
         },
-        result => ({
-          get: {
-            x: 5,
-          },
-        }),
+        result => {
+          return {
+            get: {
+              x: 5,
+            },
+          };
+        },
       ),
       {
         transformRequest: request => {

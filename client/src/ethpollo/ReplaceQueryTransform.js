@@ -19,29 +19,10 @@ export default class ReplaceQuery extends WrapQuery {
         }
       }
     });
+    // TODO: build a document with SelectionSet containing both original and call
     return {
       ...originalRequest,
       document: newDocument
     };
   }
-
-  // transformResult(originalResult) {
-  //   const rootData = originalResult.data;
-  //   if (rootData) {
-  //     let data = rootData;
-  //     const path = [...this.path];
-  //     while (path.length > 1) {
-  //       const next = path.shift();
-  //       if (data[next]) {
-  //         data = data[next];
-  //       }
-  //     }
-  //     data[path[0]] = this.extractor(data[path[0]]);
-  //   }
-
-  //   return {
-  //     data: rootData,
-  //     errors: originalResult.errors
-  //   };
-  // }
 }

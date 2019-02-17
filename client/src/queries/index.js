@@ -48,7 +48,7 @@ export const CONTRACT_TEST = gql`
         x
       }
     }
-    block(number: 5000000) {
+    block(number: "0x0") {
       hash
     }
   }
