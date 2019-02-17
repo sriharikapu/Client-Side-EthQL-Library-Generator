@@ -5,7 +5,7 @@ const path = require('path');
 
 const { ABIParser } = require('./lib/index');
 const fs = require('./src/helpers/fs-extended');
-const createFromTemplate = require('./src/template')
+const createFromTemplate = require('./src/templates/index')
 
 // TEMP Set paths manually
 const buildPath = '../cli/build';
