@@ -12,8 +12,5 @@
   },
   "devDependencies": {
     "ganache-cli": "^6.3.0"
-  },
-  "dependencies": {
-    "babel-preset-flow": "^6.23.0"
   }
 }

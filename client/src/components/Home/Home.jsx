@@ -3,14 +3,13 @@ import { Query } from 'react-apollo';
 
 import getWeb3 from '../../utils/getWeb3';
 import { CONTRACT_TEST } from '../../queries';
-import * as library from '../../lib/index';
+import library from '../../lib/index';
 
 class Home extends Component {
 
   state = {
     web3: null,
     accounts: null,
-    testing: null,
   };
 
   componentDidMount = async () => {
@@ -23,11 +22,8 @@ class Home extends Component {
       // Use web3 to get the user's accounts.
       const accounts = await web3.eth.getAccounts();
 
-      // Execute library test method.
-      const testing = library.testing();
-
       // Set web3 and accounts to the state.
-      this.setState({ web3, accounts, testing });
+      this.setState({ web3, accounts, library });
 
     } catch (error) {
 
@@ -48,7 +44,7 @@ class Home extends Component {
     return (
       <div>
         <h1>Library Test</h1>
-        <p>{this.state.testing}</p>
+        {this.state.library}
         <h1>GraphQL Test</h1>
         <Query query={CONTRACT_TEST}>
           {({ loading, error, data }) => {

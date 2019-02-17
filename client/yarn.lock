@@ -10410,7 +10410,7 @@ web3-core@1.0.0-beta.46:
     lodash "^4.17.11"
     web3-utils "1.0.0-beta.46"
 
-web3-eth-abi@1.0.0-beta.46:
+web3-eth-abi@1.0.0-beta.46, web3-eth-abi@^1.0.0-beta.46:
   version "1.0.0-beta.46"
   resolved "https://registry.yarnpkg.com/web3-eth-abi/-/web3-eth-abi-1.0.0-beta.46.tgz#b65396f12a8b8807e82da2d9a7b0af3ba6d37a62"
   integrity sha512-Ac0JTptqZPpoiF+5sg6gJlNkFZPO77qRd39YxIKoxXaXLP8JPFujpNQUJBMJU6kxT9fMYmR1T453JQj3aMEHeQ==
