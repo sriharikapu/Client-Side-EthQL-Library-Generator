@@ -1,3 +1,3 @@
-[submodule "lib/ethql"]
-	path = lib/ethql
+[submodule "submodules/ethql"]
+	path = submodules/ethql
 	url = https://github.com/ConsenSys/ethql

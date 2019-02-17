@@ -10,16 +10,10 @@ A command line interface to build JS libraries from contract data.
 yarn ganache-cli
 ```
 
-### Compile Contracts
+### Deploy Contracts
 
 ```
-truffle compile
-```
-
-### Migrate Contracts:
-
-```
-truffle migrate
+yarn contracts:deploy
 ```
 
 ### Start EthQL:
@@ -31,13 +25,7 @@ yarn ethql:start
 ### Build Library
 
 ```
-yarn build
-```
-
-If the directories are not empty, run the following command first:
-
-```
-yarn clean
+yarn cli:run
 ```
 
 ### Start Client

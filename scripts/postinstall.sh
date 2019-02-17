@@ -21,4 +21,4 @@ cd ../client && yarn
 
 # Install ethql dependencies
 log "Installing ethql dependencies..."
-cd ../lib/ethql && yarn
+cd ../submodules/ethql && yarn

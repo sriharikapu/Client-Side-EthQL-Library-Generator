@@ -3,14 +3,12 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "postinstall": "sh scripts/postinstall.sh",
-    "clean": "rm -rf cli/build client/src/lib",
-    "cli:build": "cd cli && yarn build",
-    "cli:start": "cd cli && yarn start",
+    "postinstall": "sh scripts/postinstall.sh && yarn clean",
+    "clean": "rm -rf client/src/lib && cd cli && yarn clean",
+    "cli:run": "yarn clean && cd cli && yarn start",
     "client:start": "cd client && yarn start",
-    "client:build": "cd client && yarn build",
-    "client:test": "cd client && yarn test",
-    "ethql:start": "cd lib/ethql && yarn dev"
+    "contracts:deploy": "truffle compile && truffle migrate",
+    "ethql:start": "cd submodules/ethql && yarn dev"
   },
   "devDependencies": {
     "ganache-cli": "^6.3.0"
