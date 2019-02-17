@@ -3,8 +3,8 @@
 const chalk = require('chalk');
 const path = require('path');
 
-const fs = require('./helpers/fs-extended');
 const { ABIParser } = require('./lib/index');
+const fs = require('./src/helpers/fs-extended');
 
 const buildPath = '../cli/build';
 const contractsPath = '../contracts/build';
