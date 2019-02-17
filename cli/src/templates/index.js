@@ -20,7 +20,7 @@ module.exports = (parsedContractDataArray) => {
           }, []);`;
   }
 
-  function printSubtreeGeneral() {
+  function printSubtreeGeneral(address) {
     return `
           return {
             kind: Kind.FIELD,
@@ -45,7 +45,7 @@ module.exports = (parsedContractDataArray) => {
                     },
                     value: {
                       kind: Kind.STRING,
-                      value: '0x0cb0079936dce60fcba8eff2c76f1ee64b303bad'
+                      value: '${address}'
                     }
                   }, {
                     kind: Kind.OBJECT_FIELD,
@@ -55,7 +55,7 @@ module.exports = (parsedContractDataArray) => {
                     },
                     value: {
                       kind: Kind.STRING,
-                      value: '0x0cb0079936dce60fcba8eff2c76f1ee64b303bad'
+                      value: '${address}'
                     }
                   }, {
                     kind: Kind.OBJECT_FIELD,
@@ -169,7 +169,6 @@ export default async () => {
     [
       {
         transformRequest: request => {
-          console.log('Before', request);
           return request;
         },
       },
@@ -181,20 +180,18 @@ export default async () => {
               return `
         ['${parsedContractData.name}', '${constant[0]}'],
         subtree => {
-          // TODO: get params from subtree
-          ${printSubtreeMethod(constant)}${printSubtreeGeneral()}
+          ${printSubtreeMethod(constant)}${printSubtreeGeneral(parsedContractData.address || '0x0...')}
         result => {
-          console.log('result', result);
           return {
             data: {
               ${parsedContractData.name}: {
-                ${constant[0]}: ${Object.entries(constant[1].input)[0][1][0] ? `{
-                  ${Object.entries(constant[1].input)[0][1][0].name}: 5, # should not be 5
-                }` : `{}`
-              },
+                ${constant[0]}: ${Object.entries(constant[1].input)[1] ? `{
+                  ${Object.entries(constant[1].input)[0][1][0].name}: 5, // should not be 5
+                },` : `{},
+              }`},
             },
           };
-        },`}).join('')
+        }`}).join(',')
           } else {
             return '';
           }
@@ -203,91 +200,24 @@ export default async () => {
               return `
         ['${parsedContractData.name}', '${method[0]}'],
         subtree => {
-          // TODO: get params from subtree
-          ${printSubtreeMethod(method)}
-          ${printSubtreeGeneral()}
-          return {
-            kind: Kind.FIELD,
-            name: {
-              kind: Kind.NAME,
-              value: 'call',
-            },
-            arguments: [
-              {
-                kind: Kind.ARGUMENT,
-                name: {
-                  kind: Kind.NAME,
-                  value: 'data',
-                },
-                value: {
-                  kind: Kind.OBJECT,
-                  fields: [{
-                    kind: Kind.OBJECT_FIELD,
-                    name: {
-                      kind: Kind.NAME,
-                      value: 'from'
-                    },
-                    value: {
-                      kind: Kind.STRING,
-                      value: '0x0cb0079936dce60fcba8eff2c76f1ee64b303bad'
-                    }
-                  }, {
-                    kind: Kind.OBJECT_FIELD,
-                    name: {
-                      kind: Kind.NAME,
-                      value: 'to'
-                    },
-                    value: {
-                      kind: Kind.STRING,
-                      value: '0x0cb0079936dce60fcba8eff2c76f1ee64b303bad'
-                    }
-                  }, {
-                    kind: Kind.OBJECT_FIELD,
-                    name: {
-                      kind: Kind.NAME,
-                      value: 'data'
-                    },
-                    value: {
-                      kind: Kind.STRING,
-                      value: data
-                    }
-                  }],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: Kind.SELECTION_SET,
-              selections: [
-                {
-                  kind: Kind.FIELD,
-                  name: {
-                    kind: Kind.NAME,
-                    value: 'data',
-                  }
-                }
-              ]
-            }
-          };
-        },
+          ${printSubtreeMethod(method)}${printSubtreeGeneral(parsedContractData.address || '0x0...')}
         result => {
-          console.log('result', result);
           return {
             data: {
               ${parsedContractData.name}: {
-                ${method[0]}: ${Object.entries(method[1].input)[0][1][0] ? `{
-                  ${Object.entries(method[1].input)[0][1][0].name}: 5, # should not be 5
-                }` : `{}`
-              },
+                ${method[0]}: ${Object.entries(method[1].input)[1] ? `{
+                  ${Object.entries(method[1].input)[0][1][0].name}: 5, // should not be 5
+                },` : `{},
+              }`},
             },
           };
-        },`}).join('')
+        },
+      }`}).join(',')
       } else {
         return '';
       }
       })},
-      {
         transformRequest: request => {
-          console.log('After', request);
           return request;
         },
       },
