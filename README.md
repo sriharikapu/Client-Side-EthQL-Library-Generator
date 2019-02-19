@@ -6,6 +6,8 @@
 
 Buidl JavaScript libraries that interact with contracts via EthQL.
 
+*This project was built for the ETHDenver hackathon. Ongoing work now lives at [sprusr/ethpollo](https://github.com/sprusr/ethpollo).*
+
 ## Development
 
 ### Start Ganache
